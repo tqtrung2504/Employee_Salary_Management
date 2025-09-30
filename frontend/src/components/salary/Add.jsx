@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { fetchDepartments } from "../../utils/EmployeeHelper";
+import { fetchDepartments, fetchEmployees } from "../../utils/EmployeeHelper";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Add = () => {
-    const [employee, setEmployee] = useState({
+    const [salary, setSalary] = useState({
         employeeId: null,
         basicSalary: 0,
         allowances: 0,
@@ -12,9 +13,8 @@ const Add = () => {
         payDate: null,
     })
     const [departments, setDepartments] = useState(null)
-    const [employees, setEmployees] = useState(null)
+    const [employees, setEmployees] = useState([])
     const navigate = useNavigate();
-    const {id} = useParams()
 
     useEffect(() =>{
         const getDepartments = async () =>{
@@ -25,49 +25,20 @@ const Add = () => {
     }, [])    
 
     const handleDepartment = async(e) => {
-        const emps = await getEmployees(e.target.value)
+        const emps = await fetchEmployees(e.target.value)
         setEmployees(emps)
     }
 
-    useEffect(() =>{
-        const fetchEmployee = async() =>{
-        try{
-            const response = await axios.get(`http://localhost:5000/api/employee/${id}`,
-            {
-            headers: {
-                "Authorization" : `Bearer ${localStorage.getItem('token')}`
-            }
-            })
-            if(response.data.success){
-                const employee = response.data.employee
-                setEmployee((prev) => ({
-                    ...prev, 
-                    name: employee.userId.name, 
-                    maritalStatus: employee.maritalStatus,
-                    designation: employee.designation,
-                    salary: employee.salary,
-                    department: employee.department
-                }))
-            }
-            }catch(error){
-            if(error.response && !error.response.data.success){
-                    alert(error.response.data.error);
-            }
-        }
-    }
-        fetchEmployee()
-    }, [])
-
     const handleChange = (e) =>{
-        const {name, value, files} = e.target;
-        setEmployee((prevData) => ({...prevData, [name] : value}))
+        const {name, value} = e.target;
+        setSalary((prevData) => ({...prevData, [name] : value}))
     }
 
     const handleSubmit = async(e) =>{
         e.preventDefault()
 
         try{
-            const response = await axios.post(`http://localhost:5000/api/salary/add`, employee,{
+            const response = await axios.post(`http://localhost:5000/api/salary/add`, salary,{
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 }
@@ -82,7 +53,7 @@ const Add = () => {
         }
     }
     return (
-    <>{departments && employees ? (
+    <>{departments ? (
     <div className="max-w-6xl mx-auto mt-8 bg-white p-8 rounded-md shadow-md">
         <h3 className="text-2xl font-bold mb-6 text-center" >Add Salary</h3>
         <form onSubmit={handleSubmit}>
@@ -93,7 +64,6 @@ const Add = () => {
                     className="mt-1 p-2 w-full block 2-full border border-gray-300 rounded-md" 
                     name="department"
                     onChange={handleDepartment}
-                    value={employee.department}
                     required
                     >
                         <option value="">Select Department</option>
@@ -103,7 +73,7 @@ const Add = () => {
                     </select>
                 </div>  
                 
-                <div className="col-span-2">
+                <div>
                     <label className="block text-sm font-medium text-gray-700">Employee</label>
                     <select 
                     className="mt-1 p-2 w-full block 2-full border border-gray-300 rounded-md" 
@@ -161,7 +131,7 @@ const Add = () => {
                     />
                 </div>           
             </div>
-            <button type="submit" className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded" >Edit Employee</button>
+            <button type="submit" className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded" >Add Salary</button>
         </form>
     </div>
     ) : <div>Loading... </div>}</>

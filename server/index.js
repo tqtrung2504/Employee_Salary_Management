@@ -7,6 +7,8 @@ import authRoutes from './routes/auth.js';
 import connectToDatabase from './db/db.js';
 import departmentRouter from './routes/department.js';
 import employeeRouter from './routes/employee.js';
+import salaryRouter from './routes/salary.js';
+
 
 connectToDatabase();
 
@@ -18,6 +20,7 @@ app.use(express.static('public/uploads'));
 app.use('/api/auth', authRoutes);
 app.use('/api/department', departmentRouter);
 app.use('/api/employee', employeeRouter);
+app.use('/api/salary', salaryRouter)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

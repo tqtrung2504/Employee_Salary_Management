@@ -64,7 +64,7 @@ export const fetchDepartments = async() =>{
 export const fetchEmployees = async(id) =>{
   let employees
     try{
-      const response = await axios.get(`http://localhost:5000/api/employee/salary/department/${id}`,{
+      const response = await axios.get(`http://localhost:5000/api/employee/department/${id}`,{
         headers: {
           Authorization : `Bearer ${localStorage.getItem('token')}`
         }
@@ -120,13 +120,12 @@ export const EmployeeButtons = ({Id, onEmployeeDelete}) => {
         Edit
       </button>
       <button
-        onClick={() => navigate(`/admin-dashboard/employee-salary/${Id}`)}
+        onClick={() => navigate(`/admin-dashboard/employees/salary/${Id}`)}
         className="px-4 py-1 bg-yellow-600 text-white"
       >
         Salary
       </button>
       <button
-        onClick={() => navigate(`/admin-dashboard/employee-leave/${Id}`)}
         className="px-4 py-1 bg-red-600 text-white"
       >
         Leave
