@@ -16,7 +16,6 @@ function ViewSalary() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       if (response.data?.success) {
-        // tuỳ backend: salary hoặc salaries
         const list = Array.isArray(response.data.salary)
           ? response.data.salary
           : (response.data.salaries || []);
@@ -32,7 +31,6 @@ function ViewSalary() {
 
   useEffect(() => {
     fetchSalaries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleSearch = (value) => {

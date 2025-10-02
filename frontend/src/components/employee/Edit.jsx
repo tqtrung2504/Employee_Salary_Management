@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const Edit = () => {
     const [employee, setEmployee] = useState({
         name: '',
-        maritalStatus: '',
+        martialStatus: '',
         designation: '',
         salary: 0,
         department: '',
@@ -37,7 +37,7 @@ const Edit = () => {
                 setEmployee((prev) => ({
                     ...prev, 
                     name: employee.userId.name, 
-                    maritalStatus: employee.maritalStatus,
+                    martialStatus: employee.martialStatus,
                     designation: employee.designation,
                     salary: employee.salary,
                     department: employee.department
@@ -99,7 +99,7 @@ const Edit = () => {
                     className="mt-1 p-2 w-full block 2-full border border-gray-300 rounded-md" 
                     name="martialStatus" 
                     onChange={handleChange} 
-                    value={employee.maritalStatus}
+                    value={employee.martialStatus}
                     required>
                         <option value="">Select Status</option>
                         <option value="single">Single</option>

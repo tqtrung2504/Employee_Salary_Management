@@ -34,6 +34,13 @@ export const columns = [
     width: "130px",
     center: "true"
   },
+   {
+    name: "Martial Status",
+    selector: (row) => row.martialStatus,
+    sortable: true,
+    width: "130px",
+    center: "true"
+  },
   {
     name: "Action",
     selector: (row) => row.action,

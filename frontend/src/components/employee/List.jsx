@@ -26,6 +26,7 @@ const List = () => {
             dep_name: emp?.department?.dep_name ?? "(No dept)",
             name: emp?.userId?.name ?? "(No name)",
             dob: emp?.dob ? new Date(emp.dob).toLocaleDateString() : "",
+            martialStatus: emp?.martialStatus ?? "-",
             profileImage: (
               <img
                 width={50}

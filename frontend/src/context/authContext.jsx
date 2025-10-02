@@ -1,10 +1,8 @@
-// src/context/authContext.jsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 
 const AuthCtx = createContext(null);
 
-// axios instance: tự gắn Authorization từ localStorage
 const api = axios.create({ baseURL: "http://localhost:5000/api" });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -43,8 +41,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
     setUser(null);
+    localStorage.removeItem("token");
+
   };
 
   const value = useMemo(() => ({ user, login, logout, loading }), [user, loading]);

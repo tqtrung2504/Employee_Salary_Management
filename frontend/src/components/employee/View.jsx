@@ -28,7 +28,7 @@ const View = () => {
   return (
     <>{employee ? (
     <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md ">
-        <h2 className="text-2xl font0bold mb-8 text-center">
+        <h2 className="text-2xl font-bold mb-8 text-center">
             Employee Details
         </h2>
         <div className="flex items-center gap-8">
@@ -55,6 +55,10 @@ const View = () => {
                 <div className="flex space-x-3 mb-5">
                     <p className="text-lg font-bold">Gender:</p>
                     <p className="font-medium">{employee.gender}</p>
+                </div>
+                <div className="flex space-x-3 mb-5">
+                    <p className="text-lg font-bold">Marital Status:</p>
+                    <p className="font-medium">{employee.martialStatus}</p>
                 </div>
                 <div className="flex space-x-3 mb-5">
                     <p className="text-lg font-bold">Department:</p>
