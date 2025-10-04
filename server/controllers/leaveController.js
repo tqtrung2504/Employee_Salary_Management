@@ -25,7 +25,7 @@ const addLeave = async (req, res) => {
     }
 }
 
-const getLeaves = async (req, res) => {
+const getLeave = async (req, res) => {
     try{
         const { id } = req.params;
         const employee = await Employee.findOne({ userId: id });
@@ -39,4 +39,72 @@ const getLeaves = async (req, res) => {
     }
 }
 
-export {addLeave, getLeaves}
+const getLeaves = async (req, res) => {
+    try{
+        const leaves = await Leave.find().populate({
+            path: "employeeId",
+            populate: [
+                {
+                    path: 'department',
+                    select: 'dep_name'
+                },
+                {
+                    path: 'userId',
+                    select: 'name'
+                },
+
+            ]
+        })
+        return res.status(200).json({ success: true, leaves});
+    }catch (error) {
+        return res.status(500).json({ success: false, error: "leave list server error" });
+    }
+}
+
+const getLeaveDetail = async (req, res) =>{
+    try{
+        const { id } = req.params;
+        const leave = await Leave.findById(id).populate({
+            path: "employeeId",
+            populate: [
+                {
+                    path: 'department',
+                    select: 'dep_name'
+                },
+                {
+                    path: 'userId',
+                    select: 'name profileImage'
+                },
+
+            ]
+        })
+        return res.status(200).json({ success: true, leave});
+    }catch(error){
+        return res.status(500).json({ success: false, error: "leave list server error" })
+    }
+}
+
+const updateLeave = async (req, res) => {
+    try{
+        const { id } = req.params;
+        const { status } = req.body;
+        if(!status || !["Pending", "Approved", "Rejected"].includes(status)){
+            return res.status(400).json({ success: false, error: "Invalid status" });
+        }
+        const leave = await Leave.findByIdAndUpdate(
+            id,
+            { status, updatedAt: new Date() },
+            { new: true }
+        );
+        if(!leave){
+            return res.status(404).json({ success: false, error: "Leave not found" });
+        }
+        return res.status(200).json({ success: true, leave });
+    }catch(error){
+        return res.status(500).json({ success: false, error: "leave update server error" })
+    }
+}
+
+
+
+export {addLeave, getLeave, getLeaves, getLeaveDetail, updateLeave}
